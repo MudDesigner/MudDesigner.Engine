@@ -6,7 +6,7 @@ namespace MudDesigner.Engine
     /// <summary>
     /// Provides methods, events and properties for interacting with a component during it's life-cycle.
     /// </summary>
-    public interface IGameComponent : IComponent, IInitializable, IDescriptor, IConfigurable, IEquatable<IGameComponent>
+    public interface IGameComponent : IComponent, IInitializable, IDescriptor, IConfigurable<IGameComponent>, IEquatable<IGameComponent>
     {
         /// <summary>
         /// The Loading event is fired during initialization of the component prior to being loaded.

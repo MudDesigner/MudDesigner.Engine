@@ -4,7 +4,7 @@
     /// Allows a component to become configurable using a strongly typed configuration class
     /// </summary>
     /// <typeparam name="TConfiguration">The type of the configuration.</typeparam>
-    public interface IConfigurable<TConfiguration> : IConfigurable where TConfiguration : IConfiguration
+    public interface IConfigurable<TComponent, TConfiguration> : IConfigurable<TComponent> where TConfiguration : IConfiguration<TComponent> where TComponent : IComponent
     {
         /// <summary>
         /// Configures the component using the given configuration.
