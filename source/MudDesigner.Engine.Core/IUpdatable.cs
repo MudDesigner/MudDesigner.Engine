@@ -4,6 +4,6 @@ namespace MudDesigner.Engine
 {
     public interface IUpdatable
     {
-        Task Update();
+        Task Update(ComponentTime gameTime);
     }
 }
