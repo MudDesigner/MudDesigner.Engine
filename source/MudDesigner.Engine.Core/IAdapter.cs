@@ -3,11 +3,10 @@
     /// <summary>
     /// Provides an interface for creating adapters that the game can start and run
     /// </summary>
-    public interface IAdapter<TComponent> : IInitializable, IDescriptor, IUpdatable where TComponent : IGameComponent
+    public interface IAdapter : IInitializable, IDescriptor, IUpdatable
     {
-        /// <summary>
-        /// Gets the frequency in seconds that this adapter will get updated.
-        /// </summary>
-        int UpdateFrequency { get; }
+        double UpdateFrequency { get; }
+
+        ComponentTime UpdateDelta { get; }
     }
 }

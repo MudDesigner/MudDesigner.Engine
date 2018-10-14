@@ -3,10 +3,6 @@ using System.Threading.Tasks;
 
 namespace MudDesigner.Engine.Components.Environment
 {
-    public interface IRealm<TConfiguration> : IRealm, IGameComponent<TConfiguration> where TConfiguration : IConfiguration
-    {
-    }
-
     /// <summary>
     /// Provides properties and methods for defining and maintaining Realms
     /// </summary>

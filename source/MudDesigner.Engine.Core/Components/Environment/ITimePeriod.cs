@@ -11,8 +11,4 @@ namespace MudDesigner.Engine.Components.Environment
 
         IWorldTime StartTime { get; }
     }
-
-    public interface ITimePeriod<TConfiguration> : ITimePeriod, IConfigurable<TConfiguration> where TConfiguration : IConfiguration
-    {
-    }
 }
