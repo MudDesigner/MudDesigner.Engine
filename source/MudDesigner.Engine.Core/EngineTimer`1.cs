@@ -106,19 +106,13 @@ namespace MudDesigner.Engine
                 startDelay: startDelay);
         }
 
+        public void Resume() => this.IsRunning = true;
+
         /// <summary>
         /// Stops the timer for this instance.
         /// Stopping the timer will not dispose of the EngineTimer, allowing you to restart the timer if you need to.
         /// </summary>
-        public void Stop()
-        {
-            if (!base.IsCancellationRequested)
-            {
-                base.Cancel();
-            }
-
-            this.IsRunning = false;
-        }
+        public void Stop() => this.IsRunning = false;
 
         /// <summary>
         /// Stops the timer and releases the unmanaged resources used by the <see cref="T:System.Threading.CancellationTokenSource" /> class and optionally releases the managed resources.
@@ -129,6 +123,11 @@ namespace MudDesigner.Engine
             if (disposing)
             {
                 this.Stop();
+            }
+            
+            if (!base.IsCancellationRequested)
+            {
+                base.Cancel();
             }
 
             base.Dispose(disposing);
@@ -159,7 +158,10 @@ namespace MudDesigner.Engine
                     this.fireCount++;
                 }
 
-                await callback(this.StateData, this);
+                if (this.IsRunning)
+                {
+                    await callback(this.StateData, this);
+                }
 
                 PerformTimerCancellationCheck(interval, numberOfFires);
                 await Task.Delay(TimeSpan.FromMilliseconds(interval), this.Token).ConfigureAwait(false);
