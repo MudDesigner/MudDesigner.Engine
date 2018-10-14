@@ -7,9 +7,6 @@ namespace MudDesigner.Engine
     {
         bool IsRunning { get; }
 
-        void Pause();
-        void Resume();
-
         Task RegisterComponent(params IGameComponent[] component);
 
         Task Run();
