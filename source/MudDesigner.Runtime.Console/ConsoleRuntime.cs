@@ -1,24 +1,36 @@
 ﻿using MudDesigner.Engine;
+using MudDesigner.Engine.Components.Actors;
 using MudDesigner.Engine.Eventing;
 using System;
 using System.Collections.Generic;
+using System.IO.Pipelines;
 using System.Threading.Tasks;
 
 namespace MudDesigner.Runtime.ConsoleApp
 {
     public class ConsoleRuntime : IRuntime
     {
-        private readonly IEventDispatcherFactory dispatcherFactory;
+        private readonly IEventDispatcher eventDispatcher;
         private IGameComponent[] components;
 
-        public ConsoleRuntime(IEventDispatcherFactory dispatcherFactory)
+        public ConsoleRuntime(IEventDispatcher eventDispatcher)
         {
-            this.dispatcherFactory = dispatcherFactory;
+            this.eventDispatcher = eventDispatcher;
         }
 
         public bool IsRunning { get; private set; }
 
         public void Dispose() => this.IsRunning = false;
+
+        public IGameComponent[] GetComponents()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPlayer[] GetPlayers()
+        {
+            throw new NotImplementedException();
+        }
 
         public Task RegisterComponent(params IGameComponent[] component)
         {

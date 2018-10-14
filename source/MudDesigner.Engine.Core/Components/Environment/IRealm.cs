@@ -26,7 +26,7 @@ namespace MudDesigner.Engine.Components.Environment
         /// <summary>
         /// Gets the World that owns this Realm.
         /// </summary>
-        IWorld Owner { get; set; }
+        IWorld OwningWorld { get; set; }
 
         /// <summary>
         /// Gets the all of the zones assigned to the realm.
