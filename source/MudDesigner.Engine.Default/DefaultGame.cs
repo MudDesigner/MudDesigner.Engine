@@ -106,7 +106,9 @@ namespace MudDesigner.Engine
 
             foreach (EngineTimer<IAdapter> adapter in this.adapterTimers)
             {
-                adapter.StartAsync(0, adapter.StateData.UpdateFrequency, 0, (state, timer) =>
+                // We force a minimum update freqency of 1 second.
+                double updateFrequency = adapter.StateData.UpdateFrequency > 1000 ? adapter.StateData.UpdateFrequency : 1000;
+                adapter.StartAsync(0, updateFrequency, 0, (state, timer) =>
                 {
                     double lastUpdateTime = state.UpdateDelta.LastUpdateTime;
                     double updateTime = this.TimeAlive;
