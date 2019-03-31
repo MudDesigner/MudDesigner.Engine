@@ -11,6 +11,11 @@ namespace MudDesigner.Engine
     {
         private EngineTimer<IAdapter>[] adapterTimers = Array.Empty<EngineTimer<IAdapter>>();
 
+        public event Func<IGameComponent, Task> Loading;
+        public event EventHandler<EventArgs> Loaded;
+        public event Func<IGameComponent, Task> Deleting;
+        public event EventHandler<EventArgs> Deleted;
+
         public Guid Id { get; } = Guid.NewGuid();
 
         public bool IsEnabled { get; private set; }
@@ -29,10 +34,7 @@ namespace MudDesigner.Engine
 
         public bool IsDeleted { get; private set; }
 
-        public event Func<IGameComponent, Task> Loading;
-        public event EventHandler<EventArgs> Loaded;
-        public event Func<IGameComponent, Task> Deleting;
-        public event EventHandler<EventArgs> Deleted;
+        public IConfiguration GetConfiguration() => this.Configuration;
 
         public void Configure(DefaultGameConfiguration configuration)
         {
@@ -41,9 +43,6 @@ namespace MudDesigner.Engine
                 .Select(adapter => new EngineTimer<IAdapter>(adapter))
                 .ToArray();
         }
-        
-
-        public IConfiguration GetConfiguration() => this.Configuration;
 
         public Task Delete()
         {
@@ -122,7 +121,8 @@ namespace MudDesigner.Engine
                     double timeSinceLastUpdate = updateTime - lastUpdateTime;
 
                     var componentTime = new ComponentTime(lastUpdateTime, timeSinceLastUpdate, updateTime, this.TimeAlive);
-                    return state.Update(componentTime);
+                    var updateContext = new UpdateContext(this, componentTime);
+                    return state.Update(updateContext);
                 });
             }
 

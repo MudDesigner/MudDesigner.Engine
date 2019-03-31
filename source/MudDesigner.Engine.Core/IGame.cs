@@ -21,7 +21,7 @@ namespace MudDesigner.Engine
         Task RemoveWorldsFromGame(IWorld[] worlds);
     }
 
-    public interface IGame<TConfiguration> : IGame, IGameComponent<TConfiguration> where TConfiguration : IConfiguration
+    public interface IGame<TConfiguration> : IGame, IConfigurable<TConfiguration> where TConfiguration : IConfiguration
     {
     }
 }

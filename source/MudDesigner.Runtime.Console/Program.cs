@@ -32,12 +32,15 @@ namespace MudDesigner.Runtime.ConsoleApp
 
             // Setup the component configuration and register it's adapters
             IAdapter timeAdapter = new TimeTrackingAdapter(eventDispatcher);
+
             var gameConfig = new DefaultGameConfiguration();
             gameConfig.UseAdapter(timeAdapter);
+            gameConfig.UseAdapter<WorldAdapter>();
 
             // Setup the individual engine components
             IGame<DefaultGameConfiguration> game = new DefaultGame();
             game.Configure(gameConfig);
+
             await game.Initialize();
 
             // Setup the runtime
