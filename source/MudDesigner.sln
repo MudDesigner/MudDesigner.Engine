@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Engine.Core.Uni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Engine.Eventing", "MudDesigner.Engine.Eventing\MudDesigner.Engine.Eventing.csproj", "{99A7BB5E-AEBA-488B-8B0E-F0C53A65E42D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudDesigner.Runtime.Console", "MudDesigner.Runtime.Console\MudDesigner.Runtime.Console.csproj", "{D8FC5DA0-D677-4CE2-9353-3F5E85BCF6B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Engine.Default", "MudDesigner.Engine.Default\MudDesigner.Engine.Default.csproj", "{19DECB25-9052-405B-8AE6-BA0E75349CEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudDesigner.Engine.Default", "MudDesigner.Engine.Default\MudDesigner.Engine.Default.csproj", "{19DECB25-9052-405B-8AE6-BA0E75349CEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Runtime.Console", "MudDesigner.Runtime.Console\MudDesigner.Runtime.Console.csproj", "{C75340B7-4EE3-4374-900D-D5B68B55B730}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +33,14 @@ Global
 		{99A7BB5E-AEBA-488B-8B0E-F0C53A65E42D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99A7BB5E-AEBA-488B-8B0E-F0C53A65E42D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99A7BB5E-AEBA-488B-8B0E-F0C53A65E42D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8FC5DA0-D677-4CE2-9353-3F5E85BCF6B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8FC5DA0-D677-4CE2-9353-3F5E85BCF6B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8FC5DA0-D677-4CE2-9353-3F5E85BCF6B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8FC5DA0-D677-4CE2-9353-3F5E85BCF6B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19DECB25-9052-405B-8AE6-BA0E75349CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19DECB25-9052-405B-8AE6-BA0E75349CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19DECB25-9052-405B-8AE6-BA0E75349CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19DECB25-9052-405B-8AE6-BA0E75349CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C75340B7-4EE3-4374-900D-D5B68B55B730}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C75340B7-4EE3-4374-900D-D5B68B55B730}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C75340B7-4EE3-4374-900D-D5B68B55B730}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C75340B7-4EE3-4374-900D-D5B68B55B730}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,9 +48,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7779291E-404D-4503-B714-899E7BA60125} = {1D091814-2BD3-4141-A72B-7F725F34502B}
 		{7A587FA9-C3F2-406A-81D2-E296380B47EA} = {1D091814-2BD3-4141-A72B-7F725F34502B}
-		{99A7BB5E-AEBA-488B-8B0E-F0C53A65E42D} = {1D091814-2BD3-4141-A72B-7F725F34502B}
-		{D8FC5DA0-D677-4CE2-9353-3F5E85BCF6B7} = {1D091814-2BD3-4141-A72B-7F725F34502B}
-		{19DECB25-9052-405B-8AE6-BA0E75349CEA} = {1D091814-2BD3-4141-A72B-7F725F34502B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {374C0239-4593-4BCF-8B7B-75013157B102}
