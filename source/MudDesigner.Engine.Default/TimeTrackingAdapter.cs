@@ -21,13 +21,19 @@ namespace MudDesigner.Engine
 
         public string Description { get; set; }
 
+        public bool IsInitialized { get; private set; }
+
+        public bool IsDeleted { get; private set; }
+
         public Task Delete()
         {
+            this.IsDeleted = true;
             throw new NotImplementedException();
         }
 
         public Task Initialize()
         {
+            this.IsInitialized = true;
             return Task.CompletedTask;
         }
 

@@ -1,4 +1,5 @@
-﻿using MudDesigner.Engine.Eventing;
+﻿using MudDesigner.Engine.Components.Environment;
+using MudDesigner.Engine.Eventing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MudDesigner.Engine
 {
-    public class DefaultGame : IGameComponent<DefaultGameConfiguration>
+    public class DefaultGame : IGame<DefaultGameConfiguration>
     {
         private EngineTimer<IAdapter>[] adapterTimers = Array.Empty<EngineTimer<IAdapter>>();
 
@@ -24,6 +25,10 @@ namespace MudDesigner.Engine
 
         public DefaultGameConfiguration Configuration { get; private set; }
 
+        public bool IsInitialized { get; private set; }
+
+        public bool IsDeleted { get; private set; }
+
         public event Func<IGameComponent, Task> Loading;
         public event EventHandler<EventArgs> Loaded;
         public event Func<IGameComponent, Task> Deleting;
@@ -36,11 +41,13 @@ namespace MudDesigner.Engine
                 .Select(adapter => new EngineTimer<IAdapter>(adapter))
                 .ToArray();
         }
+        
 
         public IConfiguration GetConfiguration() => this.Configuration;
 
         public Task Delete()
         {
+            this.IsDeleted = true;
             throw new NotImplementedException();
         }
 
@@ -118,6 +125,8 @@ namespace MudDesigner.Engine
                     return state.Update(componentTime);
                 });
             }
+
+            this.IsInitialized = true;
         }
 
         public void SetName(string name)
@@ -128,6 +137,41 @@ namespace MudDesigner.Engine
             }
 
             this.Name = name;
+        }
+
+        public IWorld[] GetWorldsInGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IWorld> CreateWorld(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddWorldsToGame(IWorld[] worlds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddWorldToGame(IWorld world)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveWorldFromGame(IWorld world)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveWorldsFromGame(IWorld[] worlds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IGame other)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using MudDesigner.Engine;
+﻿using Microsoft.Extensions.Logging;
+using MudDesigner.Engine;
 using MudDesigner.Engine.Components.Actors;
 using MudDesigner.Engine.Eventing;
 using System;
 using System.Collections.Generic;
-using System.IO.Pipelines;
 using System.Threading.Tasks;
 
 namespace MudDesigner.Runtime.ConsoleApp
@@ -11,12 +11,19 @@ namespace MudDesigner.Runtime.ConsoleApp
     public class ConsoleRuntime : IRuntime
     {
         private readonly IEventDispatcher eventDispatcher;
-        private IGameComponent[] components;
+        private IGameComponent[] components = Array.Empty<IGameComponent>();
 
-        public ConsoleRuntime(IEventDispatcher eventDispatcher)
+        private ILoggerFactory loggerFactory;
+        private ILogger<ConsoleRuntime> logger;
+
+        public ConsoleRuntime(IEventDispatcher eventDispatcher, ILoggerFactory loggerFactory)
         {
             this.eventDispatcher = eventDispatcher;
+            this.loggerFactory = loggerFactory;
+            this.logger = this.loggerFactory.CreateLogger<ConsoleRuntime>();
         }
+
+        public IGame Game { get; private set; }
 
         public bool IsRunning { get; private set; }
 
@@ -38,8 +45,19 @@ namespace MudDesigner.Runtime.ConsoleApp
             return Task.CompletedTask;
         }
 
-        public async Task Run()
+        public async Task Run(IGame game)
         {
+            if (!game.IsInitialized)
+            {
+                // throw exception
+            }
+            else if (game.IsDeleted)
+            {
+                // throw exception
+            }
+
+            this.Game = game;
+
             var initializingTasks = new List<Task>();
             foreach (IGameComponent component in this.components)
             {
@@ -47,15 +65,21 @@ namespace MudDesigner.Runtime.ConsoleApp
             }
 
             await Task.WhenAll(initializingTasks);
-
-            Console.WriteLine("Enter command: ");
-
             this.IsRunning = true;
             while (this.IsRunning)
             {
-                string input = await Console.In.ReadLineAsync();
-                Console.Out.WriteLine(input);
+                // Runtime loop to keep the console running.
             }
+        }
+        
+        public void HandleEvent<TEvent>() where TEvent : class, IEvent
+        {
+            this.eventDispatcher.Subscribe<TEvent>((@event, subscription) =>
+            {
+                ILogger eventLogger = this.loggerFactory.CreateLogger(@event.Name);
+                var context = new EventContext(this, this.Game, @event, subscription, eventLogger);
+                @event.Triggered(context);
+            });
         }
     }
 }

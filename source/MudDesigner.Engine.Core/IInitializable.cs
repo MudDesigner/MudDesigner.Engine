@@ -7,6 +7,10 @@ namespace MudDesigner.Engine
     /// </summary>
     public interface IInitializable
     {
+        bool IsInitialized {get;}
+
+        bool IsDeleted { get; }
+
         /// <summary>
         /// Initializes the component.
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using MudDesigner.Engine.Components.Actors;
+using MudDesigner.Engine.Eventing;
 using System;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace MudDesigner.Engine
 
         Task RegisterComponent(params IGameComponent[] component);
 
-        Task Run();
+        void HandleEvent<TEvent>() where TEvent : class, IEvent;
+
+        Task Run(IGame game);
     }
 }
