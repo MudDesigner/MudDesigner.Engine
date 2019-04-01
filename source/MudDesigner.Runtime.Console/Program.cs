@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MudDesigner.Engine;
+using MudDesigner.Engine.Components.Actors;
 using System;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace MudDesigner.Runtime.ConsoleApp
     public class RuntimeHost<TApp> : IRuntimeHost<TApp> where TApp : IRuntimeApp, new()
     {
         private IHost host = null;
+        private IRuntimeApp app = null;
 
         public bool IsRunning => throw new NotImplementedException();
 
@@ -36,7 +38,7 @@ namespace MudDesigner.Runtime.ConsoleApp
 
         public Task Initialize()
         {
-            IRuntimeApp app = new TApp();
+            this.app = new TApp();
 
             IHost host = new HostBuilder()
                 .ConfigureHostConfiguration(configBuilder =>
@@ -49,7 +51,6 @@ namespace MudDesigner.Runtime.ConsoleApp
                 .ConfigureServices((hostContext, serviceCollection) =>
                 {
                     serviceCollection.AddLogging(logBuilder => logBuilder.AddConsole());
-                    serviceCollection.AddSingleton<IGame, DefaultGame>();
 
                     app.SetHost(this);
                     app.AddServices(serviceCollection);
@@ -77,6 +78,11 @@ namespace MudDesigner.Runtime.ConsoleApp
             {
                 throw new RuntimeHostNotInitializedException();
             }
+
+            IServer server = this.host.Services.GetRequiredService<IServer>();
+            await server.Initialize();
+
+            await server.RunAsync();
             await this.host.RunAsync();
         }
 
@@ -90,7 +96,9 @@ namespace MudDesigner.Runtime.ConsoleApp
     {
         public Task AddServices(IServiceCollection serviceCollection)
         {
-            throw new NotImplementedException();
+            serviceCollection.AddSingleton<IGame, DefaultGame>();
+            //serviceCollection.AddSingleton<IServer, TestServer>();
+            return Task.CompletedTask;
         }
 
         public Task Configure(IConfigurationBuilder configurationBuilder)

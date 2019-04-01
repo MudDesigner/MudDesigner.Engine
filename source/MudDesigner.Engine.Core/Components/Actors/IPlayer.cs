@@ -3,5 +3,7 @@
     public interface IPlayer : ICharacter
     {
         IActorCommand InitialCommand { get; }
+
+        IServerConnection Connection { get; }
     }
 }
