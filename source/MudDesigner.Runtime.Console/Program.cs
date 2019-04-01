@@ -61,6 +61,10 @@ namespace MudDesigner.Runtime.ConsoleApp
             ILoggerFactory loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
             app.SetLogFactory(loggerFactory);
 
+            // TODO: Need to change this so we pass a MiddlewareCollection so the IRuntimeApp can register instances of IRuntimeMiddleware
+            // When the server receives a network request it can pass it into IRuntimeMiddleware
+            //app.ReceiveRequest()
+
             this.host = host;
             this.IsInitialized = true;
 
