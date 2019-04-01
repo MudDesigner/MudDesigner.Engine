@@ -37,9 +37,4 @@ namespace MudDesigner.Engine.Components.Actors
 
         Task Save();
     }
-
-    public interface IPlayer : ICharacter
-    {
-        IActorCommand InitialCommand { get; }
-    }
 }

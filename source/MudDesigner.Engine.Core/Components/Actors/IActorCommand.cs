@@ -4,9 +4,9 @@ namespace MudDesigner.Engine.Components.Actors
 {
     public interface IActorCommand
     {
-        Task<bool> CanProcessCommand(IPlayer source, ICommandInput command, IRuntime runtime);
+        Task<bool> CanProcessCommand(IPlayer source, ICommandInput command, IRuntimeHost runtime);
 
-        Task ProcessCommand(IPlayer source, ICommandInput command, IRuntime runtime);
+        Task ProcessCommand(IPlayer source, ICommandInput command, IRuntimeHost runtime);
     }
 
     public interface ICommandInput

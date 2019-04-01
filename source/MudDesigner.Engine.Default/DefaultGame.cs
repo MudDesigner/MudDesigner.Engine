@@ -1,4 +1,5 @@
-﻿using MudDesigner.Engine.Components.Environment;
+﻿using MudDesigner.Engine.Components.Actors;
+using MudDesigner.Engine.Components.Environment;
 using MudDesigner.Engine.Eventing;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace MudDesigner.Engine
         public event EventHandler<EventArgs> Deleted;
 
         public Guid Id { get; } = Guid.NewGuid();
+
+        public IPlayer[] Players { get; }
 
         public bool IsEnabled { get; private set; }
 

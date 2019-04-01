@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MudDesigner.Engine.Components.Actors
+﻿namespace MudDesigner.Engine.Components.Actors
 {
-    interface IPlayer
+    public interface IPlayer : ICharacter
     {
+        IActorCommand InitialCommand { get; }
     }
 }

@@ -4,7 +4,7 @@ namespace MudDesigner.Engine.Eventing
 {
     public struct EventContext
     {
-        public EventContext(IRuntime runtime, IGame game, IEvent triggeredInstance, ISubscription eventSubscription, ILogger logger)
+        public EventContext(IRuntimeHost runtime, IGame game, IEvent triggeredInstance, ISubscription eventSubscription, ILogger logger)
         {
             this.Runtime = runtime;
             this.Game = game;
@@ -13,7 +13,7 @@ namespace MudDesigner.Engine.Eventing
             this.Logger = logger;
         }
 
-        public IRuntime Runtime { get; }
+        public IRuntimeHost Runtime { get; }
 
         public IGame Game { get; }
 

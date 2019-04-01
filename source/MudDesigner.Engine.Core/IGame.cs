@@ -1,4 +1,5 @@
-﻿using MudDesigner.Engine.Components.Environment;
+﻿using MudDesigner.Engine.Components.Actors;
+using MudDesigner.Engine.Components.Environment;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,10 @@ namespace MudDesigner.Engine
 {
     public interface IGame : IInitializable, IDescriptor, IEquatable<IGame>
     {
+        IPlayer[] Players { get; }
+
+        IConfiguration GetConfiguration();
+
         IWorld[] GetWorldsInGame();
 
         Task<IWorld> CreateWorld(string name);

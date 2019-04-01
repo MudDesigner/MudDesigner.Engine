@@ -1,6 +1,5 @@
 ﻿using MudDesigner.Engine.Components.Actors;
 using MudDesigner.Engine.Components.Environment;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,15 +9,15 @@ namespace MudDesigner.Engine
     [DisplayName("save")]
     public class SaveCommand : IActorCommand
     {
-        public Task<bool> CanProcessCommand(IPlayer source, ICommandInput command, IRuntime runtime)
+        public Task<bool> CanProcessCommand(IPlayer source, ICommandInput command, IRuntimeHost runtime)
         {
             if (!runtime.IsRunning)
             {
                 return Task.FromResult(false);
             }
 
-            DefaultGame game = runtime.GetComponents().OfType<DefaultGame>().First();
-            TimeTrackingAdapter adapter = game.Configuration
+            IGame game = runtime.Game;
+            TimeTrackingAdapter adapter = game.GetConfiguration()
                 .GetAdapters()
                 .OfType<TimeTrackingAdapter>()
                 .First();
@@ -28,7 +27,7 @@ namespace MudDesigner.Engine
             return Task.FromResult(needsSaving);
         }
 
-        public async Task ProcessCommand(IPlayer source, ICommandInput command, IRuntime runtime)
+        public async Task ProcessCommand(IPlayer source, ICommandInput command, IRuntimeHost runtime)
         {
             // Can either send "save" to save yourself, or "save actorName" to save an actor.
             // TODO: Saving anything other than 'self' requires authorization.
@@ -45,7 +44,7 @@ namespace MudDesigner.Engine
             }
 
             // Search all players logged into the runtime.
-            IPlayer[] players = runtime.GetPlayers();
+            IPlayer[] players = runtime.Game.Players;
             IPlayer playerToSave = players.FirstOrDefault(player => player.Name == command.Arguments[0]);
             if (playerToSave != null)
             {

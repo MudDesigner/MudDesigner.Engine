@@ -42,9 +42,9 @@ namespace MudDesigner.Engine
             throw new NotImplementedException();
         }
 
-        public Task Update(ComponentTime gameTime)
+        public Task Update(UpdateContext updateContext)
         {
-            this.dispatcher.Publish(new TimeUpdatedEvent($"Component is {gameTime.AliveTime} seconds old."));
+            this.dispatcher.Publish(new TimeUpdatedEvent($"Component is {updateContext.CurrentTime.AliveTime} seconds old."));
             return Task.CompletedTask;
         }
     }
