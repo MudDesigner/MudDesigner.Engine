@@ -95,7 +95,8 @@ namespace MudDesigner.Engine
         private async Task ListenForConnection()
         {
             Socket clientSocket = await this.serverSocket.AcceptAsync();
-            await this.ConnectClient(clientSocket);
+            await this.CreatePlayerConnection(clientSocket);
+            await this.ListenForConnection();
         }
 
         private async Task ConnectClient(Socket clientConnection)
