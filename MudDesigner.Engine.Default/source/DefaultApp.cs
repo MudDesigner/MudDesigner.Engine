@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MudDesigner.Engine;
 using System;
 using System.Threading.Tasks;
 
-namespace MudDesigner.Runtime.Console
+namespace MudDesigner.Engine
 {
-    public class RuntimeApp : IRuntimeApp
+    public class DefaultApp : IRuntimeApp
     {
         public Task AddServices(IServiceCollection serviceCollection)
         {

@@ -1,14 +1,25 @@
 ﻿using MudDesigner.Engine.Components.Actors;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace MudDesigner.Engine
 {
     public interface IServer : IDisposable, IInitializable
     {
-        IServerConnection[] GetConnections();
+        Func<IPlayer, Task> PlayerConnected { get; set; }
 
-        IServerConnection GetConnectionForPlayer(IPlayer player);
+        Func<IPlayer, Task> PlayerDisconnected { get; set; }
+
+        IPEndPoint EndPoint { get; }
+
+        int RunningPort { get; }
+
+        IActorCommand InitialCommand { get; }
+
+        void SetInitialCommand(IActorCommand command);
+
+        IServerConnection[] GetConnections();
 
         Task RunAsync();
     }

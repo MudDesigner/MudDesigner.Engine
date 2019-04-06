@@ -36,5 +36,7 @@ namespace MudDesigner.Engine.Components.Actors
         void AssignRoom(IRoom newRoom);
 
         Task Save();
+
+        Task ExecuteCommand(IActorCommand command);
     }
 }

@@ -11,6 +11,7 @@ namespace MudDesigner.Engine
     public class DefaultGame : IGame<DefaultGameConfiguration>
     {
         private EngineTimer<IAdapter>[] adapterTimers = Array.Empty<EngineTimer<IAdapter>>();
+        private List<IPlayer> players = new List<IPlayer>();
 
         public event Func<IGameComponent, Task> Loading;
         public event EventHandler<EventArgs> Loaded;
@@ -19,7 +20,7 @@ namespace MudDesigner.Engine
 
         public Guid Id { get; } = Guid.NewGuid();
 
-        public IPlayer[] Players { get; }
+        public IPlayer[] Players => this.players.ToArray();
 
         public bool IsEnabled { get; private set; }
 
@@ -173,6 +174,16 @@ namespace MudDesigner.Engine
         }
 
         public bool Equals(IGame other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddPlayerToGame(IPlayer player)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemovePlayerFromGame(IPlayer player)
         {
             throw new NotImplementedException();
         }

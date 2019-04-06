@@ -11,6 +11,10 @@ namespace MudDesigner.Engine
     {
         IPlayer[] Players { get; }
 
+        Task AddPlayerToGame(IPlayer player);
+
+        Task RemovePlayerFromGame(IPlayer player);
+
         IConfiguration GetConfiguration();
 
         IWorld[] GetWorldsInGame();

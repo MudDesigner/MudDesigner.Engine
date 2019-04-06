@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MudDesigner.Engine;
+using MudDesigner.Engine.Eventing;
 using System;
 using System.Threading.Tasks;
 
@@ -12,28 +13,42 @@ namespace MudDesigner.Runtime.Console
     {
         private IHost host = null;
         private IRuntimeApp app = null;
-        private IServer server = null;
 
-        public bool IsRunning => throw new NotImplementedException();
+        public bool IsRunning { get; private set; }
 
-        public IGame Game => throw new NotImplementedException();
+        public IGame Game { get; private set; }
 
-        public IServer Server => throw new NotImplementedException();
+        public IServer Server { get; private set; }
 
-        public string Environment => throw new NotImplementedException();
+        public string Environment { get; private set; }
 
         public bool IsInitialized { get; private set; }
 
         public bool IsDeleted { get; private set; }
 
-        public Task Delete()
+        public async Task Delete()
         {
-            throw new NotImplementedException();
+            await this.Game.Delete();
+            await this.host.StopAsync();
+
+            this.IsRunning = false;
+            this.IsInitialized = false;
+            this.IsDeleted = true;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if (!this.IsDeleted)
+            {
+                throw new DisposingUndeletedHostException("Disposing of a host that has not been deleted is not allowed. Delete the host first.");
+            }
+
+            this.host.Dispose();
+
+            this.Game = null;
+            this.app = null;
+            this.host = null;
+
         }
 
         public async Task Initialize()
@@ -64,9 +79,8 @@ namespace MudDesigner.Runtime.Console
 
             this.host = host;
 
-            this.server = this.host.Services.GetRequiredService<IServer>();
-            await this.server.Initialize();
-
+            this.Server = this.host.Services.GetRequiredService<IServer>();
+            await this.Server.Initialize();
             this.IsInitialized = true;
         }
 
@@ -74,15 +88,19 @@ namespace MudDesigner.Runtime.Console
         {
             if (!this.IsInitialized)
             {
-                throw new RuntimeHostNotInitializedException();
+                await this.Initialize();
             }
 
 
-            await this.server.RunAsync();
+            this.Server.PlayerConnected = async (newPlayer) => await this.Game.AddPlayerToGame(newPlayer);
+            this.Server.PlayerDisconnected = async (disconnectedPlayer) => await this.Game.RemovePlayerFromGame(disconnectedPlayer);
+
+            this.IsRunning = true;
+            await this.Server.RunAsync();
             await this.host.RunAsync();
         }
 
-        void IRuntimeHost<TApp>.HandleEvent<TEvent>()
+        public void HandleEvent<TEvent>() where TEvent : class, IEvent
         {
             throw new NotImplementedException();
         }
