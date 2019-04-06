@@ -7,12 +7,13 @@ using MudDesigner.Engine.Components.Actors;
 using System;
 using System.Threading.Tasks;
 
-namespace MudDesigner.Runtime.ConsoleApp
+namespace MudDesigner.Runtime.Console
 {
     public class RuntimeHost<TApp> : IRuntimeHost<TApp> where TApp : IRuntimeApp, new()
     {
         private IHost host = null;
         private IRuntimeApp app = null;
+        private IServer server = null;
 
         public bool IsRunning => throw new NotImplementedException();
 
@@ -36,7 +37,7 @@ namespace MudDesigner.Runtime.ConsoleApp
             throw new NotImplementedException();
         }
 
-        public Task Initialize()
+        public async Task Initialize()
         {
             this.app = new TApp();
 
@@ -52,24 +53,22 @@ namespace MudDesigner.Runtime.ConsoleApp
                 {
                     serviceCollection.AddLogging(logBuilder => logBuilder.AddConsole());
 
-                    app.SetHost(this);
                     app.AddServices(serviceCollection);
                 })
                 .ConfigureLogging(logBuilder => logBuilder.AddConsole())
                 .UseConsoleLifetime()
                 .Build();
 
-            ILoggerFactory loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
-            app.SetLogFactory(loggerFactory);
-
             // TODO: Need to change this so we pass a MiddlewareCollection so the IRuntimeApp can register instances of IRuntimeMiddleware
             // When the server receives a network request it can pass it into IRuntimeMiddleware
             //app.ReceiveRequest()
 
             this.host = host;
-            this.IsInitialized = true;
 
-            return Task.CompletedTask;
+            this.server = this.host.Services.GetRequiredService<IServer>();
+            await this.server.Initialize();
+
+            this.IsInitialized = true;
         }
 
         public async Task RunAppAsync()
@@ -79,10 +78,8 @@ namespace MudDesigner.Runtime.ConsoleApp
                 throw new RuntimeHostNotInitializedException();
             }
 
-            IServer server = this.host.Services.GetRequiredService<IServer>();
-            await server.Initialize();
 
-            await server.RunAsync();
+            await this.server.RunAsync();
             await this.host.RunAsync();
         }
 
@@ -92,31 +89,60 @@ namespace MudDesigner.Runtime.ConsoleApp
         }
     }
 
+    public class FooBarServer : IServer
+    {
+        public bool IsInitialized { get; private set; }
+
+        public bool IsDeleted { get; private set; }
+
+        public Task Delete()
+        {
+            this.IsDeleted = true;
+            return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IServerConnection GetConnectionForPlayer(IPlayer player)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IServerConnection[] GetConnections()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task Initialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RunAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
     public class RuntimeApp : IRuntimeApp
     {
         public Task AddServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<IGame, DefaultGame>();
-            //serviceCollection.AddSingleton<IServer, TestServer>();
+            serviceCollection.AddSingleton<IServer, FooBarServer>();
             return Task.CompletedTask;
         }
 
         public Task Configure(IConfigurationBuilder configurationBuilder)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task ReceiveRequest(RequestContext requestContext)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetHost(IRuntimeHost host)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetLogFactory(ILoggerFactory loggerFactory)
         {
             throw new NotImplementedException();
         }

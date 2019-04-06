@@ -9,10 +9,6 @@ namespace MudDesigner.Engine
     {
         Task AddServices(IServiceCollection serviceCollection);
 
-        void SetHost(IRuntimeHost host);
-
-        void SetLogFactory(ILoggerFactory loggerFactory);
-
         Task Configure(IConfigurationBuilder configurationBuilder);
 
         Task ReceiveRequest(RequestContext requestContext);

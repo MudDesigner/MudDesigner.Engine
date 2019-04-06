@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace MudDesigner.Engine
 {
-    public interface IServer : IDisposable, IInitializable, IConfigurable
+    public interface IServer : IDisposable, IInitializable
     {
         IServerConnection[] GetConnections();
 

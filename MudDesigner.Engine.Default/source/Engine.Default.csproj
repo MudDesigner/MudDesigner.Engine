@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>MudDesigner.Engine</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MudDesigner.Engine.Core\MudDesigner.Engine.Core.csproj" />
+    <ProjectReference Include="..\..\MudDesigner.Engine.Abstraction\source\Engine.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

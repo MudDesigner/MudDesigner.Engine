@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>MudDesigner.Runtime.ConsoleApp</RootNamespace>
+    <RootNamespace>MudDesigner.Runtime.Console</RootNamespace>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MudDesigner.Engine.Default\MudDesigner.Engine.Default.csproj" />
-    <ProjectReference Include="..\MudDesigner.Engine.Eventing\MudDesigner.Engine.Eventing.csproj" />
+    <ProjectReference Include="..\..\MudDesigner.Engine.Abstraction\source\Engine.Abstraction.csproj" />
+    <ProjectReference Include="..\..\MudDesigner.Engine.Default\source\Engine.Default.csproj" />
   </ItemGroup>
 
 </Project>

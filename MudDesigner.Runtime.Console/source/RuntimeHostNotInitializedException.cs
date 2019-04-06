@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace MudDesigner.Runtime.ConsoleApp
+namespace MudDesigner.Runtime.Console
 {
     [Serializable]
     internal class RuntimeHostNotInitializedException : Exception

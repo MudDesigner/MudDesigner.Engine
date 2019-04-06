@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine.Abstraction", "Engine.Abstraction", "{71D15287-582A-4950-97AD-472558FF172C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine.Abstraction", "MudDesigner.Engine.Abstraction\source\Engine.Abstraction.csproj", "{6DA3B790-79F0-4237-BBBA-29193AF2315D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine.Abstraction.UnitTests", "MudDesigner.Engine.Abstraction\unit-tests\Engine.Abstraction.UnitTests.csproj", "{F82FFF44-7C8D-4ECD-8390-5A61A07F76F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine.Default", "Engine.Default", "{CA7F6344-5BE3-421C-8889-9DE13141CA12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine.Default", "MudDesigner.Engine.Default\source\Engine.Default.csproj", "{1DD542C5-593A-42FF-81E8-8EA107200901}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runtime.Console", "Runtime.Console", "{18025649-5420-4953-BFE5-6B57F5165A0B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Runtime.Console", "MudDesigner.Runtime.Console\source\MudDesigner.Runtime.Console.csproj", "{E71CE378-1C49-4657-B54B-B8FE18EDD0AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DA3B790-79F0-4237-BBBA-29193AF2315D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA3B790-79F0-4237-BBBA-29193AF2315D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA3B790-79F0-4237-BBBA-29193AF2315D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA3B790-79F0-4237-BBBA-29193AF2315D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F82FFF44-7C8D-4ECD-8390-5A61A07F76F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F82FFF44-7C8D-4ECD-8390-5A61A07F76F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F82FFF44-7C8D-4ECD-8390-5A61A07F76F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F82FFF44-7C8D-4ECD-8390-5A61A07F76F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DD542C5-593A-42FF-81E8-8EA107200901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DD542C5-593A-42FF-81E8-8EA107200901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DD542C5-593A-42FF-81E8-8EA107200901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DD542C5-593A-42FF-81E8-8EA107200901}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E71CE378-1C49-4657-B54B-B8FE18EDD0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E71CE378-1C49-4657-B54B-B8FE18EDD0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E71CE378-1C49-4657-B54B-B8FE18EDD0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E71CE378-1C49-4657-B54B-B8FE18EDD0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6DA3B790-79F0-4237-BBBA-29193AF2315D} = {71D15287-582A-4950-97AD-472558FF172C}
+		{F82FFF44-7C8D-4ECD-8390-5A61A07F76F2} = {71D15287-582A-4950-97AD-472558FF172C}
+		{1DD542C5-593A-42FF-81E8-8EA107200901} = {CA7F6344-5BE3-421C-8889-9DE13141CA12}
+		{E71CE378-1C49-4657-B54B-B8FE18EDD0AA} = {18025649-5420-4953-BFE5-6B57F5165A0B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {374C0239-4593-4BCF-8B7B-75013157B102}
+	EndGlobalSection
+EndGlobal
