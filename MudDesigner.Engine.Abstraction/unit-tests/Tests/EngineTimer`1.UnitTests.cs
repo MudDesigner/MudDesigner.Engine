@@ -11,7 +11,7 @@ namespace MudDesigner.Engine
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
+        [TestCategory("Engine Abstraction")]
         [Owner("Johnathon Sullinger")]
         [ExpectedException(typeof(ArgumentNullException))]
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0026:Possible unassigned object created by 'new'", Justification = "<Pending>")]
@@ -24,7 +24,7 @@ namespace MudDesigner.Engine
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
+        [TestCategory("Engine Abstraction")]
         [Owner("Johnathon Sullinger")]
         public void Ctor_sets_state_property()
         {
@@ -42,7 +42,7 @@ namespace MudDesigner.Engine
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
+        [TestCategory("Engine Abstraction")]
         [Owner("Johnathon Sullinger")]
         public void Start_sets_is_running()
         {
@@ -60,7 +60,7 @@ namespace MudDesigner.Engine
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
+        [TestCategory("Engine Abstraction")]
         [Owner("Johnathon Sullinger")]
         public async Task Stop_disables_the_timer()
         {
@@ -84,7 +84,7 @@ namespace MudDesigner.Engine
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
+        [TestCategory("Engine Abstraction")]
         [Owner("Johnathon Sullinger")]
         public void Callback_invoked_when_running()
         {
@@ -109,7 +109,7 @@ namespace MudDesigner.Engine
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
+        [TestCategory("Engine Abstraction")]
         [Owner("Johnathon Sullinger")]
         public async Task Timer_stops_when_number_of_fires_is_hit()
         {
