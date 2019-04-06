@@ -63,13 +63,13 @@ namespace MudDesigner.Runtime.Console
 
                     app.Configure(configBuilder);
                 })
+                .ConfigureLogging(logBuilder => logBuilder.AddConsole())
                 .ConfigureServices((hostContext, serviceCollection) =>
                 {
                     serviceCollection.AddLogging(logBuilder => logBuilder.AddConsole());
 
                     app.AddServices(serviceCollection);
                 })
-                .ConfigureLogging(logBuilder => logBuilder.AddConsole())
                 .UseConsoleLifetime()
                 .Build();
 
@@ -80,6 +80,9 @@ namespace MudDesigner.Runtime.Console
             this.host = host;
 
             this.Server = this.host.Services.GetRequiredService<IServer>();
+            this.Game = this.host.Services.GetRequiredService<IGame>();
+
+            await this.Game.Initialize();
             await this.Server.Initialize();
             this.IsInitialized = true;
         }
@@ -90,7 +93,6 @@ namespace MudDesigner.Runtime.Console
             {
                 await this.Initialize();
             }
-
 
             this.Server.PlayerConnected = async (newPlayer) => await this.Game.AddPlayerToGame(newPlayer);
             this.Server.PlayerDisconnected = async (disconnectedPlayer) => await this.Game.RemovePlayerFromGame(disconnectedPlayer);

@@ -1,9 +1,13 @@
-﻿namespace MudDesigner.Engine.Components.Actors
+﻿using System;
+using System.Threading.Tasks;
+using MudDesigner.Engine.Components.Environment;
+
+namespace MudDesigner.Engine.Components.Actors
 {
     public interface IPlayer : ICharacter
     {
-        IActorCommand InitialCommand { get; }
-
         IServerConnection Connection { get; }
+
+        void SetConnection(IServerConnection connection);
     }
 }

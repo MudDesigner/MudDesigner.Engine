@@ -9,6 +9,8 @@ namespace MudDesigner.Engine.Components.Actors
 
         IMover Mover { get; }
 
+        IActorCommand LastCommand { get; }
+
         /// <summary>
         /// Gets whether or not this actor can travel or not. 
         /// If the current room is null or does not have any doors, then the actor is stuck.
