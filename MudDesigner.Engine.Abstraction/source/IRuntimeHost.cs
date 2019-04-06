@@ -18,7 +18,7 @@ namespace MudDesigner.Engine
 
     public interface IRuntimeHost<TApp> : IRuntimeHost where TApp : IRuntimeApp
     {
-        Task RunAppAsync();
+        Task RunAsync();
 
         void HandleEvent<TEvent>() where TEvent : class, IEvent;
     }

@@ -84,7 +84,7 @@ namespace MudDesigner.Runtime.Console
             this.IsInitialized = true;
         }
 
-        public async Task RunAppAsync()
+        public async Task RunAsync()
         {
             if (!this.IsInitialized)
             {

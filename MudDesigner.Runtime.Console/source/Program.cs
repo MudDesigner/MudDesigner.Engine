@@ -5,6 +5,6 @@ namespace MudDesigner.Runtime.Console
 {
     public class Program
     {
-        public static async Task Main(string[] args) => await new RuntimeHost<DefaultApp>().RunAppAsync();
+        public static async Task Main(string[] args) => await new RuntimeHost<DefaultApp>().RunAsync();
     }
 }
