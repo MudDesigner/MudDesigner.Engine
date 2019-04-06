@@ -13,6 +13,12 @@ namespace MudDesigner.Runtime.Console
     {
         private IHost host = null;
         private IRuntimeApp app = null;
+        private ILogger logger = null;
+
+        public RuntimeHost(ILogger logger)
+        {
+            this.logger = logger;
+        }
 
         public bool IsRunning { get; private set; }
 
@@ -53,38 +59,55 @@ namespace MudDesigner.Runtime.Console
 
         public async Task Initialize()
         {
+            this.logger.LogInformation("Initializing Host.");
+            this.logger.LogInformation("Using {@AppType} as the hosted application.", new { Name = typeof(TApp).FullName, AppAssembly = typeof(TApp).Assembly.FullName });
             this.app = new TApp();
 
             IHost host = new HostBuilder()
                 .ConfigureHostConfiguration(configBuilder =>
                 {
-                    configBuilder.AddJsonFile("hostsettings.json")
-                        .AddEnvironmentVariables(prefix: "mud_");
+                    var configData = new { HostFile = "hostsettings.json", EnvironmentVariablePrefix = "mud_" };
+                    this.logger.LogInformation("Loading {@configData}.", configData);
+                    configBuilder.AddJsonFile(configData.HostFile, true)
+                        .AddEnvironmentVariables(prefix: configData.EnvironmentVariablePrefix);
 
+                    this.logger.LogInformation("Requesting runtime app to configure itself.");
                     app.Configure(configBuilder);
                 })
-                .ConfigureLogging(logBuilder => logBuilder.AddConsole())
+                .ConfigureLogging(logBuilder =>
+                {
+                    this.logger.LogInformation("Configuring host logging.");
+                    logBuilder.AddConsole();
+                })
                 .ConfigureServices((hostContext, serviceCollection) =>
                 {
+                    this.logger.LogInformation("Configuring host services.");
                     serviceCollection.AddLogging(logBuilder => logBuilder.AddConsole());
+                    serviceCollection.AddSingleton<ILoggerFactory>(services => new SerilogLoggerFactory());
 
+                    this.logger.LogInformation("Requesting runtime app to configure needed app services.");
                     app.AddServices(serviceCollection);
                 })
                 .UseConsoleLifetime()
                 .Build();
 
+            this.logger.LogInformation("Host initialization completed.");
             // TODO: Need to change this so we pass a MiddlewareCollection so the IRuntimeApp can register instances of IRuntimeMiddleware
             // When the server receives a network request it can pass it into IRuntimeMiddleware
             //app.ReceiveRequest()
 
             this.host = host;
 
+            this.logger.LogInformation("Setting server up.");
             this.Server = this.host.Services.GetRequiredService<IServer>();
-            this.Game = this.host.Services.GetRequiredService<IGame>();
-
-            await this.Game.Initialize();
             await this.Server.Initialize();
+
+            this.logger.LogInformation("Setting game up.");
+            this.Game = this.host.Services.GetRequiredService<IGame>();
+            await this.Game.Initialize();
             this.IsInitialized = true;
+
+            this.logger.LogInformation("Runtime setup completed.");
         }
 
         public async Task RunAsync()
@@ -94,7 +117,7 @@ namespace MudDesigner.Runtime.Console
                 await this.Initialize();
             }
 
-            this.Server.PlayerConnected = async (newPlayer) => await this.Game.AddPlayerToGame(newPlayer);
+            this.Server.PlayerConnected = async (newPlayer) =>this.logger.LogInformation("Player connected.");
             this.Server.PlayerDisconnected = async (disconnectedPlayer) => await this.Game.RemovePlayerFromGame(disconnectedPlayer);
 
             this.IsRunning = true;

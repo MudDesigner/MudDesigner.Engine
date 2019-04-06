@@ -1,4 +1,5 @@
-﻿using MudDesigner.Engine.Components.Actors;
+﻿using Microsoft.Extensions.Logging;
+using MudDesigner.Engine.Components.Actors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,13 @@ namespace MudDesigner.Engine
 
         private IServerConnectionFactory connectionFactory;
 
-        public DefaultServer(IPlayerFactory playerFactory, IServerConnectionFactory connectionFactory)
+        private ILogger logger;
+
+        public DefaultServer(IPlayerFactory playerFactory, IServerConnectionFactory connectionFactory, ILoggerFactory loggerFactory)
         {
             this.playerFactory = playerFactory;
             this.connectionFactory = connectionFactory;
+            this.logger = loggerFactory.CreateLogger<DefaultServer>();
         }
 
         public int RunningPort { get; private set; } = 5001;
@@ -65,12 +69,16 @@ namespace MudDesigner.Engine
 
         public Task RunAsync()
         {
+            this.logger.LogInformation("Configuring server for {@listeningInformation}.", new { Host = "localhost", Port = this.RunningPort });
             this.EndPoint = new IPEndPoint(IPAddress.Any, this.RunningPort);
 
+            this.logger.LogInformation("Setting up TCP Connection.");
             this.serverSocket = new Socket(this.EndPoint.Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            this.logger.LogInformation("Server bound to host.");
             this.serverSocket.Bind(this.EndPoint);
             this.serverSocket.Listen(50);
 
+            this.logger.LogInformation("Server started.");
             return this.ListenForConnection();
         }
 
