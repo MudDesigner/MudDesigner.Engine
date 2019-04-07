@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MudDesigner.Engine.Components.Actors;
 using System;
 using System.Net.Sockets;
@@ -9,9 +10,15 @@ namespace MudDesigner.Engine
 {
     internal class TcpConnectionFactory : IServerConnectionFactory
     {
-        public Task<IServerConnection> CreateConnection(Socket socket)
+        private readonly ILoggerFactory loggerFactory;
+
+        public TcpConnectionFactory(ILoggerFactory loggerFactory) => this.loggerFactory = loggerFactory;
+
+        public async Task<IServerConnection> CreateConnection(Socket socket)
         {
-            throw new NotImplementedException();
+            IServerConnection connection = new TcpConnection(socket, this.loggerFactory);
+            await connection.Initialize();
+            return connection;
         }
     }
 

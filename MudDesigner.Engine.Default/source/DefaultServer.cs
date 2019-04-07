@@ -59,6 +59,11 @@ namespace MudDesigner.Engine
 
         public void Dispose()
         {
+            if (!this.listeningTask.IsCompleted)
+            {
+                this.listeningTokenSource.Cancel();
+            }
+
             this.listeningTask.Dispose();
             this.listeningTokenSource.Dispose();
         }
@@ -101,7 +106,6 @@ namespace MudDesigner.Engine
 
         private void ListenForConnection()
         {
-
             this.listeningTokenSource = new CancellationTokenSource();
             this.listeningTask = Task.Run(async () =>
             {
@@ -117,6 +121,10 @@ namespace MudDesigner.Engine
         {
             IServerConnection playerConnection = await this.connectionFactory.CreateConnection(clientConnection);
             IPlayer player = await this.playerFactory.CreatePlayer(playerConnection);
+            if (playerConnection is TcpConnection tcpConnection)
+            {
+                tcpConnection.SetPlayer(player);
+            }
 
             this.connectedPlayers.Add(player);
             await this.PlayerConnected(player);

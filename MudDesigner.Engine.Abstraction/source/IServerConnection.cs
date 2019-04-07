@@ -14,6 +14,8 @@ namespace MudDesigner.Engine
     {
         IPEndPoint EndPoint { get; }
 
+        IPlayer Owner { get; }
+
         Task SendTo(string message);
     }
 }
