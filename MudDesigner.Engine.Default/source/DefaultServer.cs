@@ -5,22 +5,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MudDesigner.Engine
 {
     public class DefaultServer : IServer
     {
-        private List<IPlayer> connectedPlayers = new List<IPlayer>();
+        private readonly List<IPlayer> connectedPlayers = new List<IPlayer>();
         private Socket serverSocket;
 
         private EngineTimer<IServer> playerTimeoutTimer;
+        private CancellationTokenSource listeningTokenSource;
+        private Task listeningTask;
+        private readonly IPlayerFactory playerFactory;
 
-        private IPlayerFactory playerFactory;
+        private readonly IServerConnectionFactory connectionFactory;
 
-        private IServerConnectionFactory connectionFactory;
-
-        private ILogger logger;
+        private readonly ILogger logger;
 
         public DefaultServer(IPlayerFactory playerFactory, IServerConnectionFactory connectionFactory, ILoggerFactory loggerFactory)
         {
@@ -45,8 +47,10 @@ namespace MudDesigner.Engine
 
         public async Task Delete()
         {
-            foreach(IPlayer player in this.connectedPlayers)
+            this.listeningTokenSource.Cancel();
+            foreach (IPlayer player in this.connectedPlayers)
             {
+                await player.Connection.Delete();
                 await player.Delete();
             }
 
@@ -55,6 +59,8 @@ namespace MudDesigner.Engine
 
         public void Dispose()
         {
+            this.listeningTask.Dispose();
+            this.listeningTokenSource.Dispose();
         }
 
         public IServerConnection[] GetConnections()
@@ -79,7 +85,8 @@ namespace MudDesigner.Engine
             this.serverSocket.Listen(50);
 
             this.logger.LogInformation("Server started.");
-            return this.ListenForConnection();
+            this.ListenForConnection();
+            return Task.CompletedTask;
         }
 
         public void SetInitialCommand(IActorCommand command)
@@ -92,17 +99,18 @@ namespace MudDesigner.Engine
             this.InitialCommand = command;
         }
 
-        private async Task ListenForConnection()
+        private void ListenForConnection()
         {
-            Socket clientSocket = await this.serverSocket.AcceptAsync();
-            await this.CreatePlayerConnection(clientSocket);
-            await this.ListenForConnection();
-        }
 
-        private async Task ConnectClient(Socket clientConnection)
-        {
-            await this.CreatePlayerConnection(clientConnection);
-            await this.ListenForConnection();
+            this.listeningTokenSource = new CancellationTokenSource();
+            this.listeningTask = Task.Run(async () =>
+            {
+                while (!this.IsDeleted)
+                {
+                    Socket clientSocket = await this.serverSocket.AcceptAsync();
+                    await this.CreatePlayerConnection(clientSocket);
+                }
+            }, this.listeningTokenSource.Token);
         }
 
         private async Task CreatePlayerConnection(Socket clientConnection)
